@@ -17,11 +17,14 @@ Jeweler::Tasks.new do |gem|
   gem.name = "omniauth-diandian"
   gem.homepage = "http://github.com/secretworry/omniauth-diandian"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{OmniAuth Strategy for diandian}
+  gem.description = %Q{And OmniAuth Strategy for diandian using OAuth2}
   gem.email = "dusiyh@gmail.com"
   gem.authors = ["secretworry"]
   # dependencies defined in Gemfile
+  gem.add_dependency 'diandian-oauth', "> 0"
+  gem.add_dependency 'omniauth', '~> 1.1.0'
+  gem.add_dependency 'omniauth-oauth2', '~> 1.1.0'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
@@ -32,6 +35,7 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
+=begin
 require 'rcov/rcovtask'
 Rcov::RcovTask.new do |test|
   test.libs << 'test'
@@ -39,6 +43,7 @@ Rcov::RcovTask.new do |test|
   test.verbose = true
   test.rcov_opts << '--exclude "gems/*"'
 end
+=end
 
 task :default => :test
 
