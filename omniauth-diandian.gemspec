@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
     "lib/omniauth-diandian.rb",
     "lib/omniauth-diandian/version.rb",
     "lib/omniauth/strategies/diandian.rb",
+    "omniauth-diandian.gemspec",
     "test/helper.rb",
     "test/test_omniauth-diandian.rb"
   ]
