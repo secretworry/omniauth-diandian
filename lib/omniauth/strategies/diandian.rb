@@ -1,20 +1,21 @@
-require 'omniauth-oauth2'
-
 module OmniAuth
   module Strategies
     class Diandian < OmniAuth::Strategies::OAuth2
+      option :name, "diandian"
+
       option :client_options, {
-          :site => "https://api.diandian.com",
-          :authorize_url => "https://api.diandian.com/oauth/authorize",
-          :token_url => "https://api.diandian.com/oauth/token"
+          :site => "https://api.diandian.com/"
       }
 
       option :token_params, {
-          :grant_type => "authorization_code"
       }
 
       uid {
-        raw_info[:uid.to_s]
+        raw_info['uid']
+      }
+
+      info {
+        raw_info['info']
       }
 
       extra {
@@ -24,11 +25,20 @@ module OmniAuth
       }
 
       def request_phase
-        super
+        redirect client.auth_code.authorize_url({:redirect_url => callback_url}).merge(authorize_params)
       end
 
       def raw_info
-        access_token.get('/v1/')
+        return @raw_info if @raw_info
+        @raw_info['uid'] = access_token.params['uid']
+        @raw_info['info'] = access_token.get('/v1/user/info').parsed
+        @raw_info['token'] = {
+            'token' => access_token.refresh_token,
+            'refresh_token' => access_token.refresh_token,
+            'expires_in' => access_token.expires_in,
+            'expires_at' => access_token.expires_at,
+            'uid' => access_token.params['uid']
+        }
       end
     end
   end
