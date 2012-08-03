@@ -30,6 +30,7 @@ module OmniAuth
 
       def raw_info
         return @raw_info if @raw_info
+        @raw_info = {}
         @raw_info['uid'] = access_token.params['uid']
         user_info_response_json = access_token.get('/v1/user/info').parsed
         status = user_info_response_json.fetch('meta', {}).fetch('status')
