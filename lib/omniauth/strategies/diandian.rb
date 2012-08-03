@@ -25,15 +25,18 @@ module OmniAuth
       }
 
       def request_phase
-        redirect client.auth_code.authorize_url({:redirect_url => callback_url}).merge(authorize_params)
+        redirect client.auth_code.authorize_url({:redirect_url => callback_url}.merge(authorize_params))
       end
 
       def raw_info
         return @raw_info if @raw_info
         @raw_info['uid'] = access_token.params['uid']
-        @raw_info['info'] = access_token.get('/v1/user/info').parsed
+        user_info_response_json = access_token.get('/v1/user/info').parsed
+        status = user_info_response_json.fetch('meta', {}).fetch('status')
+        raise StandardError 'cannot get user info' unless status == 200
+        @raw_info['info'] = user_info_response_json.fetch('response')
         @raw_info['token'] = {
-            'token' => access_token.refresh_token,
+            'token' => access_token.token,
             'refresh_token' => access_token.refresh_token,
             'expires_in' => access_token.expires_in,
             'expires_at' => access_token.expires_at,
