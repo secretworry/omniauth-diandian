@@ -24,6 +24,10 @@ module OmniAuth
         }
       }
 
+      def callback_url
+        options.redirect_url || super
+      end
+
       def callback_phase
         if request.params['error'] || request.params['error_reason']
           raise CallbackError.new(request.params['error'], request.params['error_description'] || request.params['error_reason'], request.params['error_uri'])
