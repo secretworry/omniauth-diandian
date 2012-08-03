@@ -24,10 +24,6 @@ module OmniAuth
         }
       }
 
-      def request_phase
-        redirect client.auth_code.authorize_url({:redirect_url => callback_url}.merge(authorize_params))
-      end
-
       def raw_info
         return @raw_info if @raw_info
         @raw_info['uid'] = access_token.params['uid']
