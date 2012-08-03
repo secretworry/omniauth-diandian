@@ -25,7 +25,7 @@ module OmniAuth
       }
 
       def callback_url
-        options.redirect_url || super
+        options.redirect_uri || super
       end
 
       def callback_phase
