@@ -43,6 +43,7 @@ module OmniAuth
             'expires_at' => access_token.expires_at,
             'uid' => access_token.params['uid']
         }
+        @raw_info['params'] = access_token.params
       end
     end
   end
