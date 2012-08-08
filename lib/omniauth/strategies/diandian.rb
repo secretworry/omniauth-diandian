@@ -32,10 +32,6 @@ module OmniAuth
         return @raw_info if @raw_info
         @raw_info = {}
         @raw_info['uid'] = access_token.params['uid']
-        user_info_response_json = access_token.get('/v1/user/info').parsed
-        status = user_info_response_json.fetch('meta', {}).fetch('status')
-        raise StandardError 'cannot get user info' unless status == 200
-        @raw_info['info'] = user_info_response_json.fetch('response')
         @raw_info['token'] = {
             'token' => access_token.token,
             'refresh_token' => access_token.refresh_token,
@@ -44,6 +40,10 @@ module OmniAuth
             'uid' => access_token.params['uid']
         }
         @raw_info['params'] = access_token.params
+        user_info_response_json = access_token.get('/v1/user/info').parsed
+        status = user_info_response_json.fetch('meta', {}).fetch('status')
+        raise StandardError 'cannot get user info' unless status == 200
+        @raw_info['info'] = user_info_response_json.fetch('response')
       end
     end
   end
